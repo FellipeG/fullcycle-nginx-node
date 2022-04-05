@@ -10,7 +10,9 @@ services:
     container_name: nginx
     tty: true
     restart: always
-    command: dockerize -wait tcp://node:5000 -timeout 20s docker-entrypoint.sh nginx -g daemon off
+    command: dockerize -wait tcp://node:5000 -timeout 20s /docker-entrypoint.sh nginx -g 'daemon off;'
+    ports:
+      - "8080:80"
     networks:
       - nodenetwork
     depends_on:
@@ -21,7 +23,7 @@ services:
     container_name: node
     tty: true
     restart: always
-    command: dockerize -wait tcp://mariadb:3306 -timeout 20s docker-entrypoint.sh
+    command: dockerize -wait tcp://mariadb:3306 -timeout 20s docker-entrypoint.sh node index.js --port 5000
     build: 
       context: ./node
       dockerfile: Dockerfile.prod
@@ -49,6 +51,7 @@ services:
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
 
 networks:
   nodenetwork:

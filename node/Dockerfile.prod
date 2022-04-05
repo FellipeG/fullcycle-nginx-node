@@ -12,5 +12,3 @@ WORKDIR /var/www/html
 COPY ./project/* /var/www/html/
 
 EXPOSE 5000
-
-ENTRYPOINT [ "/docker-entrypoint.sh" ]
