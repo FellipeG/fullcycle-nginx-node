@@ -23,7 +23,7 @@ services:
     container_name: node
     tty: true
     restart: always
-    command: dockerize -wait tcp://mariadb:3306 -timeout 20s docker-entrypoint.sh node index.js --port 5000
+    command: dockerize -wait tcp://mariadb:3306 -timeout 20s docker-entrypoint.sh sh -c "npm install && node index.js --port 5000"
     build: 
       context: ./node
       dockerfile: Dockerfile.prod
